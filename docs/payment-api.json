@@ -1,0 +1,331 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Payment API",
+        "description": "Payment API",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000"
+        }
+    ],
+    "paths": {
+        "/api/payment": {
+            "post": {
+                "description": "Create new payment",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create new payment",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "amount_book": {
+                                        "type": "integer"
+                                    },
+                                    "payment_date": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "payment_metode": {
+                                        "type": "string"
+                                    },
+                                    "total_price": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Success create payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "amount_book": {
+                                                    "type": "integer"
+                                                },
+                                                "payment_date": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "payment_metode": {
+                                                    "type": "string"
+                                                },
+                                                "total_price": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "description": "Search payment",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "name": "payment_method",
+                        "in": "query"
+                    },
+                    {
+                        "name": "size",
+                        "in": "query"
+                    },
+                    {
+                        "name": "page",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success search payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "amount_book": {
+                                                        "type": "integer"
+                                                    },
+                                                    "payment_date": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string"
+                                                    },
+                                                    "payment_metode": {
+                                                        "type": "string"
+                                                    },
+                                                    "total_price": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        },
+                                        "meta": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/payment/{id}": {
+            "put": {
+                "description": "Update payment",
+                "parameters": [
+                    {
+                        "name": "Authorization",
+                        "in": "header"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "description": "Update payment",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "amount_book": {
+                                        "type": "integer"
+                                    },
+                                    "payment_date": {
+                                        "type": "string"
+                                    },
+                                    "status": {
+                                        "type": "string"
+                                    },
+                                    "payment_metode": {
+                                        "type": "string"
+                                    },
+                                    "total_price": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success update payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "type": "object",
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number"
+                                                },
+                                                "amount_book": {
+                                                    "type": "integer"
+                                                },
+                                                "payment_date": {
+                                                    "type": "string"
+                                                },
+                                                "status": {
+                                                    "type": "string"
+                                                },
+                                                "payment_metode": {
+                                                    "type": "string"
+                                                },
+                                                "total_price": {
+                                                    "type": "integer"
+                                                }
+                                            }
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "get": {
+                    "description": "Get payment",
+                    "parameters": [
+                        {
+                            "name": "Authorization",
+                            "in": "header"
+                        },
+                        {
+                            "name": "id",
+                            "in": "path"
+                        }
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Success get payment",
+                            "content": {
+                                "application/json": {
+                                    "schema": {
+                                        "type": "object",
+                                        "properties": {
+                                            "data": {
+                                                "type": "object",
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number"
+                                                    },
+                                                    "amount_book": {
+                                                        "type": "integer"
+                                                    },
+                                                    "payment_date": {
+                                                        "type": "string"
+                                                    },
+                                                    "status": {
+                                                        "type": "string"
+                                                    },
+                                                    "payment_metode": {
+                                                        "type": "string"
+                                                    },
+                                                    "total_price": {
+                                                        "type": "integer"
+                                                    }
+                                                }
+                                            },
+                                            "errors": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "delete": {
+                        "description": "Delete payment",
+                        "parameters": [
+                            {
+                                "name": "Authorization",
+                                "in": "header"
+                            },
+                            {
+                                "name": "id",
+                                "in": "path"
+                            }
+                        ],
+                        "response": {
+                            "200": {
+                                "description": "Success delete payment",
+                                "content": {
+                                    "application/json": {
+                                        "schema": {
+                                            "type": "object",
+                                            "properties": {
+                                                "data": {
+                                                    "type": "boolean"
+                                                },
+                                                "errors": {
+                                                    "type": "object"
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

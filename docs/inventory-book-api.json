@@ -1,0 +1,297 @@
+{
+	"openapi": "3.0.3",
+	"info": {
+		"title": "Inventory Book API",
+		"description": "Inventory Book API",
+		"version": "1.0.0"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:8000"
+		}
+	],
+	"paths": {
+		"/api/books/{idBook}/inventory-book": {
+			"post": {
+				"description": "Create new inventory book",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header"
+					},
+					{
+						"name": "idInventoryBook",
+						"in": "path"
+					}
+				],
+				"requestBody": {
+					"description": "Create new address",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"stok": {
+										"type": "integer"
+									},
+									"price": {
+										"type": "string"
+									},
+									"is_available": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Success create inventory book",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "number"
+												},
+												"stok": {
+													"type": "integer"
+												},
+												"price": {
+													"type": "string"
+												},
+												"is_available": {
+													"type": "string"
+												}
+											}
+										},
+										"errors": {
+											"type": "object"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"get": {
+				"description": "Get list inventory book",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header"
+					},
+					{
+						"name": "idInventoryBook",
+						"in": "path"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "List inventory book",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "array",
+											"items": {
+												"type": "object",
+												"properties": {
+													"id": {
+														"type": "number"
+													},
+													"stok": {
+														"type": "integer"
+													},
+													"price": {
+														"type": "string"
+													},
+													"is_available": {
+														"type": "string"
+													}
+												}
+											}
+										},
+										"errors": {
+											"type": "object"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/api/books/{idBook}/inventory-book/{idInventoryBook}": {
+			"get": {
+				"description": "Get inventory book",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header"
+					},
+					{
+						"name": "idInventoryBook",
+						"in": "path"
+					},
+					{
+						"name": "idInventoryBook",
+						"in": "path"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success create Inventory Book",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "number"
+												},
+												"stok": {
+													"type": "integer"
+												},
+												"price": {
+													"type": "string"
+												},
+												"is_available": {
+													"type": "string"
+												}
+											}
+										},
+										"errors": {
+											"type": "object"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"put": {
+				"description": "Update inventory book",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header"
+					},
+					{
+						"name": "idBook",
+						"in": "path"
+					},
+					{
+						"name": "idInventoryBook",
+						"in": "path"
+					}
+				],
+				"requestBody": {
+					"description": "Update existing contact address",
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"stok": {
+										"type": "integer"
+									},
+									"price": {
+										"type": "string"
+									},
+									"is_available": {
+										"type": "string"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Success create inventory book",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "object",
+											"properties": {
+												"id": {
+													"type": "number"
+												},
+												"stok": {
+													"type": "integer"
+												},
+												"price": {
+													"type": "string"
+												},
+												"is_available": {
+													"type": "string"
+												}
+											}
+										},
+										"errors": {
+											"type": "object"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"delete": {
+				"description": "Delete inventory book",
+				"parameters": [
+					{
+						"name": "Authorization",
+						"in": "header"
+					},
+					{
+						"name": "idBook",
+						"in": "path"
+					},
+					{
+						"name": "idInventoryBook",
+						"in": "path"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "Success delete",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"data": {
+											"type": "boolean"
+										},
+										"errors": {
+											"type": "object"
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
