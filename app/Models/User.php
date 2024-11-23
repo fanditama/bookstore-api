@@ -14,6 +14,12 @@ class User extends Model
     public $timestamps = true;
     public $incrementing = true;
 
+    protected $fillable = [
+        'username',
+        'password',
+        'name'
+    ];
+
     public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class, 'payment_id', 'id');
