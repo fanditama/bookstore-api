@@ -2,8 +2,11 @@
 
 namespace Tests\Feature;
 
+<<<<<<< HEAD
 use App\Models\User;
 use Database\Seeders\UserSeeder;
+=======
+>>>>>>> 0710665240ea301071a0ea0a9ec04e836484a959
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -64,6 +67,7 @@ class UserTest extends TestCase
                 ]
             ]);
     }
+<<<<<<< HEAD
 
     public function testLoginSuccess()
     {
@@ -115,4 +119,6 @@ class UserTest extends TestCase
                 ]
             ]);
     }
+=======
+>>>>>>> 0710665240ea301071a0ea0a9ec04e836484a959
 }

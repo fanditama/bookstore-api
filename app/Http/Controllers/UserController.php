@@ -33,6 +33,7 @@ class UserController extends Controller
         $user->save();
 
         return (new UserResource($user))->response()->setStatusCode(201);
+<<<<<<< HEAD
     }
 
     public function login(UserLoginRequest $request): UserResource
@@ -55,5 +56,7 @@ class UserController extends Controller
         $user->save();
 
         return new UserResource($user);
+=======
+>>>>>>> 0710665240ea301071a0ea0a9ec04e836484a959
     }
 }
