@@ -2,11 +2,8 @@
 
 namespace Tests\Feature;
 
-<<<<<<< HEAD
 use App\Models\User;
 use Database\Seeders\UserSeeder;
-=======
->>>>>>> 0710665240ea301071a0ea0a9ec04e836484a959
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
@@ -67,7 +64,6 @@ class UserTest extends TestCase
                 ]
             ]);
     }
-<<<<<<< HEAD
 
     public function testLoginSuccess()
     {
@@ -119,6 +115,51 @@ class UserTest extends TestCase
                 ]
             ]);
     }
-=======
->>>>>>> 0710665240ea301071a0ea0a9ec04e836484a959
+
+    public function testGetSuccess()
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->get('/api/users/current', [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'username' => 'test',
+                    'name' => 'test'
+                ]
+            ]);
+    }
+
+    public function testGetUnauthorized() 
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->get('/api/users/current', [
+            
+        ])->assertStatus(401)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'unauthorized'
+                    ]
+                ]
+            ]);
+    }
+
+    public function testGetInvalidToken() 
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->get('/api/users/current', [
+            'Authorization' => 'salah'
+        ])->assertStatus(401)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'unauthorized'
+                    ]
+                ]
+            ]);
+    }
 }
