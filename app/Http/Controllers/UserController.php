@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UserLoginRequest;
 use App\Http\Requests\UserRegisterRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -19,7 +20,7 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        // cek username sudah ada di dalam database 
+        // cek username sudah ada di dalam database
         if (User::where('username', $data['username'])->count() == 1) {
             throw new HttpResponseException(response([
                 'errors' => [
@@ -63,5 +64,24 @@ class UserController extends Controller
     {
         $auth = Auth::user(); // cek user yg sudah login
         return new UserResource($auth);
+    }
+
+    public function update(UserUpdateRequest $request): UserResource
+    {
+        $data = $request->validated();
+
+        $user = Auth::user(); // cek user yg sudah login
+
+        if (isset($data['name'])) {
+            $user->name = $data['name'];
+        }
+
+        if (isset($data['password'])) {
+            $user->password = Hash::make($data['password']);
+        }
+
+        $user->save();
+
+        return new UserResource($user);
     }
 }
