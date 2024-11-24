@@ -8,6 +8,8 @@ use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -33,7 +35,6 @@ class UserController extends Controller
         $user->save();
 
         return (new UserResource($user))->response()->setStatusCode(201);
-<<<<<<< HEAD
     }
 
     public function login(UserLoginRequest $request): UserResource
@@ -56,7 +57,11 @@ class UserController extends Controller
         $user->save();
 
         return new UserResource($user);
-=======
->>>>>>> 0710665240ea301071a0ea0a9ec04e836484a959
+    }
+
+    public function get(Request $request): UserResource
+    {
+        $auth = Auth::user(); // cek user yg sudah login
+        return new UserResource($auth);
     }
 }
