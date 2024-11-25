@@ -30,3 +30,5 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 	Route::patch('/users/current', [UserController::class, 'update']);
 	Route::delete('/users/logout', [UserController::class, 'logout']);
 });
+
+Route::post('users/books', [BookController::class, 'create']);
