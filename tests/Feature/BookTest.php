@@ -2,21 +2,26 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
+use Database\Seeders\UserSeeder;
 use Tests\TestCase;
 
 class BookTest extends TestCase
 {
     public function testCreateSuccess()
     {
-        $this->post('/api/books', [
-            'title' => 'si kancil',
-            'author' => 'anonymous',
-            'publisher' => 'anonymous',
-            'publication_year' => 2024,
-            'genre' => 'cerpen'
-        ])->assertStatus(201)
+        $this->seed([UserSeeder::class]); //get data user_id untuk autentikasi
+
+        $this->post('/api/books',
+            [
+                'title' => 'si kancil',
+                'author' => 'anonymous',
+                'publisher' => 'anonymous',
+                'publication_year' => 2024,
+                'genre' => 'cerpen'
+            ],
+            [
+                'Authorization' => 'test'
+            ])->assertStatus(201)
             ->assertJson([
                 'data' => [
                     'title' => 'si kancil',
@@ -30,13 +35,19 @@ class BookTest extends TestCase
 
     public function testCreateFailed()
     {
-        $this->post('/api/books', [
-            'title' => '',
-            'author' => '',
-            'publisher' => 'anonymous',
-            'publication_year' => 2024,
-            'genre' => 'cerpen'
-        ])->assertStatus(400)
+        $this->seed([UserSeeder::class]); // get data user_id untuk autentikasi
+
+        $this->post('/api/books',
+            [
+                'title' => '',
+                'author' => '',
+                'publisher' => 'anonymous',
+                'publication_year' => 2024,
+                'genre' => 'cerpen'
+            ],
+            [
+                'Authorization' => 'test'
+            ])->assertStatus(400)
             ->assertJson([
                 'errors' => [
                     'title' => [

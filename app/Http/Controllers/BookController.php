@@ -14,8 +14,10 @@ class BookController extends Controller
     public function create(BookCreateRequest $request): JsonResponse
     {
         $data = $request->validated();
+        $user = Auth::user();
 
         $book = new Book($data);
+        $book->user_id = $user->id;
         $book->save();
 
         return (new BookResource($book))->response()->setStatusCode(201);

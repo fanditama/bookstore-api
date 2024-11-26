@@ -17,7 +17,7 @@ class BookCreateRequest extends FormRequest
          * ambil data user yg saat ini sedang login
          * cek ada data user yg login atau tidak
          */
-        return true;
+        return $this->user() != null;
     }
 
     /**
