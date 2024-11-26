@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('publisher', 100)->nullable(false);
             $table->integer('publication_year')->nullable(false);
             $table->enum('genre', ['cerpen', 'sejarah', 'misteri', 'politik', 'ekonomi'])->default('cerpen');
+            $table->unsignedBigInteger("user_id")->nullable(false);
             $table->timestamps();
+
+            $table->foreign("user_id")->on("users")->references("id");
         });
     }
 

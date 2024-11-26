@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Enums\TypeGenreBooks;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Book extends Model
@@ -27,6 +28,11 @@ class Book extends Model
     protected $casts =[
         'genre' => TypeGenreBooks::class
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'users_id', 'id');
+    }
 
     public function inventory_books(): HasMany
     {
