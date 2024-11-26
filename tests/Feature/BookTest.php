@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\User;
 use Database\Seeders\UserSeeder;
 use Tests\TestCase;
 
@@ -55,6 +56,30 @@ class BookTest extends TestCase
                     ],
                     'author' => [
                         'The author field is required.'
+                    ]
+                ]
+            ]);
+    }
+
+    public function testCreateUnauthorized()
+    {
+        $this->seed([UserSeeder::class]);
+
+        $this->post('/api/books',
+            [
+                'title' => '',
+                'author' => 'anonymous',
+                'publisher' => 'anonymous',
+                'publication_year' => 2024,
+                'genre' => 'cerpen'
+            ],
+            [
+                'Authorization' => 'salah'
+            ])->assertStatus(401)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'unauthorized'
                     ]
                 ]
             ]);
