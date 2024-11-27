@@ -105,4 +105,21 @@ class BookTest extends TestCase
                 ]
             ]);
     }
+
+    public function testGetNotFound()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->get('/api/books/' . ($book->id + 1),[
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ]);
+    }
 }
