@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Models\Book;
 use App\Models\User;
+use Database\Seeders\BookSeeder;
 use Database\Seeders\UserSeeder;
 use Tests\TestCase;
 
@@ -81,6 +83,25 @@ class BookTest extends TestCase
                     'message' => [
                         'unauthorized'
                     ]
+                ]
+            ]);
+    }
+
+    public function testGetSuccess()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+        
+        $this->get('/api/books/' . $book->id,[
+                'Authorization' => 'test'
+            ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'title' => 'test',
+                    'author' => 'test',
+                    'publisher' => 'test',
+                    'publication_year' => 2024,
+                    'genre' => 'cerpen'
                 ]
             ]);
     }
