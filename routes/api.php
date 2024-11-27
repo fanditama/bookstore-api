@@ -31,6 +31,7 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 	Route::delete('/users/logout', [UserController::class, 'logout']);
 
     Route::post('/books', [BookController::class, 'create']);
+	Route::get('/books/{id}', [BookController::class, 'get']);
 });
 
 
