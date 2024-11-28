@@ -122,4 +122,29 @@ class BookTest extends TestCase
                 ]
             ]);
     }
+
+    public function testUpdateSuccess()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->put('/api/books/' . $book->id, [
+            'title' => 'test2',
+            'author' => 'test2',
+            'publisher' => 'test2',
+            'publication_year' => 2025,
+            'genre' => 'sejarah'
+        ],[
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'title' => 'test2',
+                    'author' => 'test2',
+                    'publisher' => 'test2',
+                    'publication_year' => 2025,
+                    'genre' => 'sejarah'
+                ]
+            ]);
+    }
 }
