@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BookCreateRequest;
+use App\Http\Requests\BookUpdateRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -38,6 +39,28 @@ class BookController extends Controller
                 ]
             ])->setStatusCode(404));
         }
+
+        return new BookResource($book);
+    }
+
+    public function update(int $id, BookUpdateRequest $request): BookResource 
+    {
+        $user = Auth::user();
+        $book = Book::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$book) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $data = $request->validated();
+        $book->fill($data);
+        $book->save();
 
         return new BookResource($book);
     }

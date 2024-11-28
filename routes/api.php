@@ -32,6 +32,7 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 
     Route::post('/books', [BookController::class, 'create']);
 	Route::get('/books/{id}', [BookController::class, 'get']);
+	Route::put('/books/{id}', [BookController::class, 'update']);
 });
 
 
