@@ -91,7 +91,7 @@ class BookTest extends TestCase
     {
         $this->seed([UserSeeder::class, BookSeeder::class]);
         $book = Book::query()->limit(1)->first();
-        
+
         $this->get('/api/books/' . $book->id,[
                 'Authorization' => 'test'
             ])->assertStatus(200)
@@ -144,6 +144,29 @@ class BookTest extends TestCase
                     'publisher' => 'test2',
                     'publication_year' => 2025,
                     'genre' => 'sejarah'
+                ]
+            ]);
+    }
+
+    public function testUpdateValidationError()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->put('/api/books/' . $book->id, [
+            'title' => '',
+            'author' => 'test2',
+            'publisher' => 'test2',
+            'publication_year' => 2025,
+            'genre' => 'sejarah'
+        ],[
+            'Authorization' => 'test'
+        ])->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'title' => [
+                        'The title field is required.'
+                    ]
                 ]
             ]);
     }
