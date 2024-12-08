@@ -29,7 +29,7 @@ class BookController extends Controller
     {
         $user = Auth::user();
         $book = Book::where('id', $id)->where('user_id', $user->id)->first();
-        
+
         if (!$book) {
             throw new HttpResponseException(response()->json([
                 'errors' => [
@@ -43,7 +43,7 @@ class BookController extends Controller
         return new BookResource($book);
     }
 
-    public function update(int $id, BookUpdateRequest $request): BookResource 
+    public function update(int $id, BookUpdateRequest $request): BookResource
     {
         $user = Auth::user();
         $book = Book::where('id', $id)->where('user_id', $user->id)->first();
@@ -63,5 +63,26 @@ class BookController extends Controller
         $book->save();
 
         return new BookResource($book);
+    }
+
+    public function delete(int $id): jsonResponse
+    {
+        $user = Auth::user();
+        $book = Book::where('id', $id)->where('user_id', $user->id)->first();
+
+        if (!$book) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $book->delete();
+        return response()->json([
+           'data' => true
+        ])->setStatusCode(200);
     }
 }

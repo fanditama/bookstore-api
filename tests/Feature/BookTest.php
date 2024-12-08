@@ -170,4 +170,33 @@ class BookTest extends TestCase
                 ]
             ]);
     }
+
+    public function testDeleteSucces() {
+        $this->seed([UserSeeder::class, BookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->delete('/api/books/' . $book->id, [], [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => true
+            ]);
+    }
+
+    public function testDeleteNotFound() 
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->delete('/api/books/' . ($book->id + 1), [], [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ]);
+    }
 }
