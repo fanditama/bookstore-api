@@ -5,7 +5,9 @@ namespace Tests\Feature;
 use App\Models\Book;
 use App\Models\User;
 use Database\Seeders\BookSeeder;
+use Database\Seeders\SearchSeeder;
 use Database\Seeders\UserSeeder;
+use Illuminate\Support\Facades\Log;
 use Tests\TestCase;
 
 class BookTest extends TestCase
@@ -198,5 +200,118 @@ class BookTest extends TestCase
                     ]
                 ]
             ]);
+    }
+
+    public function testSearchByTitleName()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?name=title_name', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    
+    }
+    public function testSearchByAuthorName()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?name=author_name', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
+    
+    public function testSearchByPublishPublisher()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?publish=test_publish', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
+
+    public function testSearchByPublishPublicationYear()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?publish=2000', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
+    
+    public function testSearchByGenre()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?genre=cerpen', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(10, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+    }
+
+    public function testSearchNotFound()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?name=tidakada', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(0, count($response['data']));
+        self::assertEquals(0, $response['meta']['total']);
+    }
+    
+    public function testSearchWithPage()
+    {
+        $this->seed([UserSeeder::class, SearchSeeder::class]);
+
+        $response = $this->get('/api/books?size=5&page=2', [
+            'Authorization' => 'test'
+        ])
+            ->assertStatus(200)
+            ->json();
+        
+        Log::info(json_encode($response, JSON_PRETTY_PRINT));
+
+        self::assertEquals(5, count($response['data']));
+        self::assertEquals(20, $response['meta']['total']);
+        self::assertEquals(2, $response['meta']['current_page']);
     }
 }
