@@ -96,15 +96,15 @@
                         "in": "header"
                     },
                     {
-                        "name": "title",
-                        "in": "query"
-                    },
-                    {
-                        "name": "author",
+                        "name": "name",
                         "in": "query"
                     },
                     {
                         "name": "publisher",
+                        "in": "query"
+                    },
+                    {
+                        "name": "genre",
                         "in": "query"
                     },
                     {
