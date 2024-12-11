@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InventoryBook;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Middleware\ApiAuthMiddleware;
@@ -32,9 +33,11 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 
     Route::post('/books', [BookController::class, 'create']);
 	Route::get('/books', [BookController::class, 'search']);
-	Route::get('/books/{id}', [BookController::class, 'get']);
-	Route::put('/books/{id}', [BookController::class, 'update']);
-    Route::delete('/books/{id}', [BookController::class, 'delete']);
+	Route::get('/books/{id}', [BookController::class, 'get'])->where('id', '[0-9]+');
+	Route::put('/books/{id}', [BookController::class, 'update'])->where('id', '[0-9]+');
+    Route::delete('/books/{id}', [BookController::class, 'delete'])->where('id', '[0-9]+');
+
+	Route::post('/books/{idBook}/inventoryBooks', [InventoryBook::class, 'create'])->where('idBook', '[0-9]+');
 });
 
 
