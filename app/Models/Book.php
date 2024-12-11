@@ -31,11 +31,11 @@ class Book extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'users_id', 'id');
+        return $this->belongsTo(Book::class, 'user_id', 'id');
     }
 
     public function inventory_books(): HasMany
     {
-        return $this->hasMany(InventoryBook::class, 'inventory_book_id', 'id');
+        return $this->hasMany(InventoryBook::class, 'book_id', 'id');
     }
 }

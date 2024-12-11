@@ -13,6 +13,12 @@ class InventoryBook extends Model
     protected $keyType = "int";
     public $timestamps = true;
     public $incrementing = true;
+    
+    protected $fillable = [
+      'stok',
+      'price',
+      'is_availaible'  
+    ];
 
     public function book(): BelongsTo
     {
