@@ -35,4 +35,34 @@ class InventoryBook extends Controller
 
         return (new InventoryBookResource($inventoryBook))->response()->setStatusCode(201);
     }
+
+    public function get(int $idBook, int $idInventoryBook) : InventoryBookResource
+    {
+        $user = Auth::user();
+        $book = Book::where('user_id', $user->id)->where('id', $idBook)->first();
+
+        if (!$book) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        $inventoryBook = \App\Models\InventoryBook::where('book_id', $book->id)->where('id', $idInventoryBook)->first();
+        
+        if (!$inventoryBook) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+
+        return new InventoryBookResource($inventoryBook);
+    }
 }

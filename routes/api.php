@@ -38,6 +38,7 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
     Route::delete('/books/{id}', [BookController::class, 'delete'])->where('id', '[0-9]+');
 
 	Route::post('/books/{idBook}/inventoryBooks', [InventoryBook::class, 'create'])->where('idBook', '[0-9]+');
+	Route::get('/books/{idBook}/inventoryBooks/{idInventoryBook}', [InventoryBook::class, 'get'])->where('idBook', '[0-9]+')->where('idInventoryBook', '[0-9]+');
 });
 
 
