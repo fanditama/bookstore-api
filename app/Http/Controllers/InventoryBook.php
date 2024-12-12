@@ -6,6 +6,8 @@ use App\Http\Requests\InventoryBookCreateRequest;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\InventoryBookResource;
 use App\Models\Book;
+use App\Models\InventoryBook as ModelsInventoryBook;
+use App\Models\User;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,6 +15,37 @@ use Illuminate\Support\Facades\Auth;
 
 class InventoryBook extends Controller
 {
+    private function getBook(User $user, int $idBook): Book
+    {
+        $book = Book::where('user_id', $user->id)->where('id', $idBook)->first();
+        if (!$book) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    "message" => [
+                        "not found"
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+        return $book;
+    }
+
+    private function getInventoryBook(Book $book, int $idInventoryBook): ModelsInventoryBook
+    {
+        $inventoryBook = \App\Models\InventoryBook::where('book_id', $book->id)->where('id', $idInventoryBook)->first();
+        
+        if (!$inventoryBook) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ])->setStatusCode(404));
+        }
+        return $inventoryBook;
+    }
+
     public function create(int $idBook, InventoryBookCreateRequest $request): JsonResponse
     {
         $user = Auth::user();
@@ -39,30 +72,9 @@ class InventoryBook extends Controller
     public function get(int $idBook, int $idInventoryBook) : InventoryBookResource
     {
         $user = Auth::user();
-        $book = Book::where('user_id', $user->id)->where('id', $idBook)->first();
+        $book = $this->getBook($user, $idBook);
+        $idInventoryBook = $this->getInventoryBook($book, $idInventoryBook);
 
-        if (!$book) {
-            throw new HttpResponseException(response()->json([
-                'errors' => [
-                    'message' => [
-                        'not found'
-                    ]
-                ]
-            ])->setStatusCode(404));
-        }
-
-        $inventoryBook = \App\Models\InventoryBook::where('book_id', $book->id)->where('id', $idInventoryBook)->first();
-        
-        if (!$inventoryBook) {
-            throw new HttpResponseException(response()->json([
-                'errors' => [
-                    'message' => [
-                        'not found'
-                    ]
-                ]
-            ])->setStatusCode(404));
-        }
-
-        return new InventoryBookResource($inventoryBook);
+        return new InventoryBookResource($idInventoryBook);
     }
 }
