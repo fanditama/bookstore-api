@@ -19,7 +19,7 @@ return new class extends Migration
             $table->unsignedBigInteger('book_id')->nullable(false);
             $table->timestamps();
 
-            $table->foreign('book_id')->on('books')->references('id');
+            $table->foreign('book_id')->on('books')->references('id')->cascadeOnDelete();
         });
     }
 
