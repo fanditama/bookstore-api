@@ -3,7 +3,9 @@
 namespace Tests\Feature;
 
 use App\Models\Book;
+use App\Models\InventoryBook;
 use Database\Seeders\BookSeeder;
+use Database\Seeders\InventoryBookSeeder;
 use Database\Seeders\UserSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -16,7 +18,7 @@ class InventoryBookTest extends TestCase
         $this->seed([UserSeeder::class, BookSeeder::class]);
         $book = Book::query()->limit(1)->first();
 
-        $this->post('api/books/' . $book->id . '/inventoryBooks', 
+        $this->post('/api/books/' . $book->id . '/inventoryBooks', 
             [
                 'stok' => 1111,
                 'price' => 2222,
@@ -41,7 +43,7 @@ class InventoryBookTest extends TestCase
         $this->seed([UserSeeder::class, BookSeeder::class]);
         $book = Book::query()->limit(1)->first();
 
-        $this->post('api/books/' . $book->id . '/inventoryBooks', 
+        $this->post('/api/books/' . $book->id . '/inventoryBooks', 
             [
                 'stok' => 1111,
                 'price' => 2222,
@@ -66,7 +68,7 @@ class InventoryBookTest extends TestCase
         $this->seed([UserSeeder::class, BookSeeder::class]);
         $book = Book::query()->limit(1)->first();
 
-        $this->post('api/books/' . ($book->id + 1) . '/inventoryBooks', 
+        $this->post('/api/books/' . ($book->id + 1) . '/inventoryBooks', 
             [
                 'stok' => 1111,
                 'price' => 2222,
@@ -84,5 +86,27 @@ class InventoryBookTest extends TestCase
                     ]
                 ]
             ]);
+    }
+
+    public function testGetSuccess()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
+
+        $this->get('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . $inventoryBook->id, [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'stok' => 1111,
+                    'price' => 2222,
+                    'is_availaible' => 'tersedia'
+                ]
+            ]);
+    }
+
+    public function testGetNotFound()
+    {
+
     }
 }
