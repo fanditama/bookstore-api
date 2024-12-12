@@ -107,6 +107,18 @@ class InventoryBookTest extends TestCase
 
     public function testGetNotFound()
     {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
 
+        $this->get('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . ($inventoryBook->id + 1), [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ],
+                ]
+            ]);
     }
 }
