@@ -104,4 +104,14 @@ class InventoryBookController extends Controller
             'data' => true
         ])->setStatusCode(200);
     }
+
+    
+    public function list(int $idBook): JsonResponse
+    {
+        $user = Auth::user();
+        $book = $this->getBook($user, $idBook);
+
+        $inventoryBook = InventoryBook::where('book_id', $book->id)->get();
+        return (InventoryBookResource::collection($inventoryBook))->response()->setStatusCode(200);
+    }
 }
