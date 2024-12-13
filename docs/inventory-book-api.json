@@ -11,7 +11,7 @@
 		}
 	],
 	"paths": {
-		"/api/books/{idBook}/inventory-book": {
+		"/api/books/{idBook}/inventoryBooks": {
 			"post": {
 				"description": "Create new inventory book",
 				"parameters": [
@@ -131,7 +131,7 @@
 				}
 			}
 		},
-		"/api/books/{idBook}/inventory-book/{idInventoryBook}": {
+		"/api/books/{idBook}/inventoryBooks/{idInventoryBook}": {
 			"get": {
 				"description": "Get inventory book",
 				"parameters": [
