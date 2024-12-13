@@ -221,4 +221,40 @@ class InventoryBookTest extends TestCase
                 ]
             ]);
     }
+
+    public function testListSuccess()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->get('/api/books/' . $book->id . '/inventoryBooks', [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    [
+                        'stok' => 1111,
+                        'price' => 2222,
+                        'is_availaible' => 'tersedia'
+                    ],
+                ]
+            ]);
+    }
+
+    public function testListNotFound()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $book = Book::query()->limit(1)->first();
+
+        $this->get('/api/books/' . ($book->id + 1) . '/inventoryBooks', [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ]);
+    }
 }
