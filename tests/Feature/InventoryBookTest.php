@@ -183,4 +183,42 @@ class InventoryBookTest extends TestCase
                 ]
             ]);
     }
+
+    public function testDeleteSuccess()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
+
+        $this->delete('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . $inventoryBook->id, [
+            
+        ],
+        [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    true
+                ]
+            ]);
+    }
+
+    public function testDeleteNotFound()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
+
+        $this->delete('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . ($inventoryBook->id + 1), [
+            
+        ],
+        [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ]);
+    }
 }
