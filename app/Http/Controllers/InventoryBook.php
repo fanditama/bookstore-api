@@ -91,4 +91,17 @@ class InventoryBook extends Controller
 
         return new InventoryBookResource($inventoryBook);
     }
+
+    public function delete(int $idBook, int $idInventoryBook): JsonResponse
+    {
+        $user = Auth::user();
+        $book = $this->getBook($user, $idBook);
+        $inventoryBook = $this->getInventoryBook($book, $idInventoryBook);
+
+        $inventoryBook->delete();
+
+        return response()->json([
+            'data' => true
+        ])->setStatusCode(200);
+    }
 }
