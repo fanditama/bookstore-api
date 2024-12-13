@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\InventoryBookCreateRequest;
+use App\Http\Requests\InventoryBookUpdateRequest;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\InventoryBookResource;
 use App\Models\Book;
@@ -76,5 +77,18 @@ class InventoryBook extends Controller
         $idInventoryBook = $this->getInventoryBook($book, $idInventoryBook);
 
         return new InventoryBookResource($idInventoryBook);
+    }
+
+    public function update(int $idBook, int $idInventoryBook, InventoryBookUpdateRequest $request): InventoryBookResource
+    {
+        $user = Auth::user();
+        $book = $this->getBook($user, $idBook);
+        $inventoryBook = $this->getInventoryBook($book, $idInventoryBook);
+
+        $data = $request->validated();
+        $inventoryBook->fill($data);
+        $inventoryBook->save();
+
+        return new InventoryBookResource($inventoryBook);
     }
 }
