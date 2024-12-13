@@ -121,4 +121,66 @@ class InventoryBookTest extends TestCase
                 ]
             ]);
     }
+
+    public function testUpdateSuccess()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
+
+        $this->put('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . $inventoryBook->id, [
+            'stok' => 3333,
+            'price' => 4444,
+            'is_availaible' => 'tidak tersedia'
+        ],
+        [
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'stok' => 3333,
+                    'price' => 4444,
+                    'is_availaible' => 'tidak tersedia'
+                ]
+            ]);
+    }
+
+    public function testUpdateFailed()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
+
+        $this->put('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . $inventoryBook->id, [
+            'stok' => 3333,
+            'price' => 4444,
+            'is_availaible' => ''
+        ],
+        [
+            'Authorization' => 'test'
+        ])->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'is_availaible' => ['The is availaible field is required.']
+                ]
+            ]);
+    }
+
+    public function testUpdateNotFound()
+    {
+        $this->seed([UserSeeder::class, BookSeeder::class, InventoryBookSeeder::class]);
+        $inventoryBook = InventoryBook::query()->limit(1)->first();
+
+        $this->put('/api/books/' . $inventoryBook->book_id . '/inventoryBooks/' . ($inventoryBook->id + 1), [
+            'stok' => 3333,
+            'price' => 4444,
+            'is_availaible' => 'tidak tersedia'
+        ],
+        [
+            'Authorization' => 'test'
+        ])->assertStatus(404)
+            ->assertJson([
+                'errors' => [
+                    'message' => ['not found']
+                ]
+            ]);
+    }
 }
