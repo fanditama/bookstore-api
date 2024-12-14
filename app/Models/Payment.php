@@ -14,6 +14,13 @@ class Payment extends Model
     public $timestamps = true;
     public $incrementing = true;
 
+    protected $fillable = [
+        'amount_book',
+        'payment_date',
+        'status',
+        'payment_method',
+    ];
+
     protected $date = 'payment_date';
 
     public function getFormattedCreatedAtAttribute()

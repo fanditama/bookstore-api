@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class BankCreateRequest extends FormRequest
 {
@@ -23,9 +25,16 @@ class BankCreateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'max:100'],
-            'account_number' => ['required'],
+            'account_number' => ['required', 'min:1'],
             'account_name' => ['required', 'max:100'],
             'image' => ['required', 'max:100']
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response([
+            "errors" => $validator->getMessageBag()
+        ], 400));
     }
 }
