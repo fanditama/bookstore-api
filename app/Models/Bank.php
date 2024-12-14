@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Bank extends Model
 {
@@ -14,8 +15,20 @@ class Bank extends Model
     public $timestamps = true;
     public $incrementing = true;
 
-    public function payment(): BelongsTo
+    protected $fillable = [
+        'name',
+        'account_number',
+        'account_name',
+        'image'
+    ];
+
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Payment::class, 'payment_id', 'id');
+        return $this->belongsTo(Bank::class, 'user_id', 'id');
+    }
+
+    public function payment(): HasMany
+    {
+        return $this->hasMany(Payment::class, 'bank_id', 'id');
     }
 }
