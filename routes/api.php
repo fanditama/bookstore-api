@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\BankController;
 use App\Http\Controllers\InventoryBook;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\InventoryBookController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Middleware\ApiAuthMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +45,8 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 	Route::get('/books/{idBook}/inventoryBooks/{idInventoryBook}', [InventoryBookController::class, 'get'])->where('idBook', '[0-9]+')->where('idInventoryBook', '[0-9]+');
 	Route::put('/books/{idBook}/inventoryBooks/{idInventoryBook}', [InventoryBookController::class, 'update'])->where('idBook', '[0-9]+')->where('idInventoryBook', '[0-9]+');
 	Route::delete('/books/{idBook}/inventoryBooks/{idInventoryBook}', [InventoryBookController::class, 'delete'])->where('idBook', '[0-9]+')->where('idInventoryBook', '[0-9]+');
+
+	Route::post('/banks', [BankController::class, 'create']);
 });
 
 
