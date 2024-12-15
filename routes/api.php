@@ -48,6 +48,7 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 
 	Route::post('/banks', [BankController::class, 'create']);
 	Route::get('/banks/{id}', [BankController::class, 'get'])->where('id', '[0-9]+');
+	Route::put('/banks/{id}', [BankController::class, 'update'])->where('id', '[0-9]+');
 });
 
 

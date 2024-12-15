@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BankCreateRequest;
+use App\Http\Requests\BankUpdateRequest;
 use App\Http\Resources\BankResource;
 use App\Http\Resources\PaymentResource;
 use App\Models\Bank;
@@ -39,6 +40,28 @@ class BankController extends Controller
                 ]
             ])->setStatusCode(404));
         }
+
+        return new BankResource($bank);
+    }
+
+    public function update(int $id, BankUpdateRequest $request): BankResource
+    {
+        $user = Auth::user();
+        $bank = Bank::where('id', $id)->where('user_id', $user->id)->first();
+
+        if(!$bank) {
+            throw new HttpResponseException(response()->json([
+                'errors' => [
+                    'message' => [
+                        'not found'
+                    ]
+                ]
+            ]));
+        }
+
+        $data = $request->validated();
+        $bank->fill($data);
+        $bank->save();
 
         return new BankResource($bank);
     }
