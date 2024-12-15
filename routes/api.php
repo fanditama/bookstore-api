@@ -47,8 +47,10 @@ Route::middleware(ApiAuthMiddleware::class)->group(function () {
 	Route::delete('/books/{idBook}/inventoryBooks/{idInventoryBook}', [InventoryBookController::class, 'delete'])->where('idBook', '[0-9]+')->where('idInventoryBook', '[0-9]+');
 
 	Route::post('/banks', [BankController::class, 'create']);
+	Route::get('/banks', [BankController::class, 'search']);
 	Route::get('/banks/{id}', [BankController::class, 'get'])->where('id', '[0-9]+');
 	Route::put('/banks/{id}', [BankController::class, 'update'])->where('id', '[0-9]+');
+	Route::delete('/banks/{id}', [BankController::class, 'delete'])->where('id', '[0-9]+');
 });
 
 
