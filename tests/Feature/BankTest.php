@@ -84,4 +84,50 @@ class BankTest extends TestCase
                 ]
             ]);
     }
+
+    public function testUpdateSuccess()
+    {
+        $this->seed([UserSeeder::class, BankSeeder::class]);
+        $bank = Bank::query()->limit(1)->first();
+
+        $this->put('/api/banks/' . $bank->id, [
+            'name' => 'test2',
+            'account_number' => 11112,
+            'account_name' => 'test2',
+            'image' => 'test2'
+        ],[
+            'Authorization' => 'test'
+        ])->assertStatus(200)
+            ->assertJson([
+                'data' => [
+                    'name' => 'test2',
+                    'account_number' => 11112,
+                    'account_name' => 'test2',
+                    'image' => 'test2'
+                ]
+            ]);
+
+    }
+
+    public function testUpdateValidationError()
+    {
+        $this->seed([UserSeeder::class, BankSeeder::class]);
+        $bank = Bank::query()->limit(1)->first();
+
+        $this->put('/api/banks/' . $bank->id, [
+            'name' => '',
+            'account_number' => 11112,
+            'account_name' => 'test2',
+            'image' => 'test2'
+        ],[
+            'Authorization' => 'test'
+        ])->assertStatus(400)
+            ->assertJson([
+                'errors' => [
+                    'name' => [
+                        'The name field is required.'
+                    ]
+                ]
+            ]);
+    }
 }
