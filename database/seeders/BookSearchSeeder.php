@@ -7,7 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class SearchSeeder extends Seeder
+class BookSearchSeeder extends Seeder
 {
     /**
      * Run the database seeds.

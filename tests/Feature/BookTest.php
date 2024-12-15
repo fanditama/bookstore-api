@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\Book;
 use App\Models\User;
+use Database\Seeders\BookSearchSeeder;
 use Database\Seeders\BookSeeder;
 use Database\Seeders\SearchSeeder;
 use Database\Seeders\UserSeeder;
@@ -204,7 +205,7 @@ class BookTest extends TestCase
 
     public function testSearchByTitleName()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?name=title_name', [
             'Authorization' => 'test'
@@ -220,7 +221,7 @@ class BookTest extends TestCase
     }
     public function testSearchByAuthorName()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?name=author_name', [
             'Authorization' => 'test'
@@ -236,7 +237,7 @@ class BookTest extends TestCase
     
     public function testSearchByPublishPublisher()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?publish=test_publish', [
             'Authorization' => 'test'
@@ -252,7 +253,7 @@ class BookTest extends TestCase
 
     public function testSearchByPublishPublicationYear()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?publish=2000', [
             'Authorization' => 'test'
@@ -268,7 +269,7 @@ class BookTest extends TestCase
     
     public function testSearchByGenre()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?genre=cerpen', [
             'Authorization' => 'test'
@@ -284,7 +285,7 @@ class BookTest extends TestCase
 
     public function testSearchNotFound()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?name=tidakada', [
             'Authorization' => 'test'
@@ -300,7 +301,7 @@ class BookTest extends TestCase
     
     public function testSearchWithPage()
     {
-        $this->seed([UserSeeder::class, SearchSeeder::class]);
+        $this->seed([UserSeeder::class, BookSearchSeeder::class]);
 
         $response = $this->get('/api/books?size=5&page=2', [
             'Authorization' => 'test'
