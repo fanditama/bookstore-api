@@ -11,7 +11,7 @@
         }
     ],
     "paths": {
-        "/api/bank": {
+        "/api/banks": {
             "post": {
                 "description": "Create new bank",
                 "parameters": [
@@ -90,11 +90,15 @@
                         "in": "header"
                     },
                     {
-                        "name": "name",
+                        "name": "identity",
                         "in": "query"
                     },
                     {
-                        "name": "account_name",
+                        "name": "number",
+                        "in": "query"
+                    },
+                    {
+                        "name": "image",
                         "in": "query"
                     },
                     {
@@ -150,7 +154,7 @@
                 }
             }
         },
-        "/api/bank/{id}": {
+        "/api/banks/{id}": {
             "put": {
                 "description": "Update bank",
                 "parameters": [
